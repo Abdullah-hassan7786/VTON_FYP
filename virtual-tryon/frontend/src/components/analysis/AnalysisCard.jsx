@@ -8,11 +8,11 @@ const AnalysisCard = ({ analysisData }) => {
 
   return (
     <Card className="h-full flex flex-col">
-      <div className="p-8 flex-1">
-        <div className="text-center mb-8">
-          <p className="text-text-secondary text-sm font-medium uppercase tracking-widest mb-3">Your Color Season is</p>
-          <h2 className="text-4xl md:text-5xl font-bold font-display text-secondary mb-6">{analysisData.season}</h2>
-          <SeasonBadge season={analysisData.season} className="mb-8" />
+      <div className="p-6 flex-1">
+        <div className="text-center mb-6">
+          <p className="text-text-secondary text-xs font-medium uppercase tracking-widest mb-2">Your Color Season is</p>
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-secondary mb-4">{analysisData.season}</h2>
+          <SeasonBadge season={analysisData.season} className="mb-6" />
         </div>
 
         {analysisData.croppedImageBase64 && (

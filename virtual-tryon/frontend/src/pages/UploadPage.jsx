@@ -76,26 +76,26 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-secondary pt-24 pb-12">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-bg-secondary pt-16 pb-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6">
         
-        <div className="text-center mb-10">
+        <div className="text-center mb-4">
           <h1 className="text-3xl font-bold font-display text-secondary mb-2">Analyze Your Skin Tone</h1>
-          <p className="text-text-secondary">Upload a photo to discover your color season and get personalized recommendations.</p>
+          <p className="text-text-secondary text-sm">Upload a photo to discover your color season and get personalized recommendations.</p>
         </div>
 
         {/* Progress Bar Header */}
-        <div className="mb-8">
+        <div className="mb-4">
           <div className="flex justify-between items-end mb-2">
-            <span className="text-sm font-bold text-primary uppercase tracking-wider">Step 1 of 3</span>
-            <span className="text-sm font-medium text-text-muted">Upload Photo</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">Step 1 of 3</span>
+            <span className="text-xs font-medium text-text-muted">Upload Photo</span>
           </div>
           <div className="h-2 w-full bg-bg-tertiary rounded-full overflow-hidden">
             <div className="h-full bg-primary rounded-full w-1/3"></div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-border p-6 sm:p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-border p-6">
           
           <AnimatePresence mode="wait">
             {!file ? (
@@ -132,27 +132,7 @@ const UploadPage = () => {
                 className="space-y-8"
               >
                 <ImagePreview file={file} fileUrl={fileUrl} onRemove={handleRemoveFile} />
-                
-                {/* Guidelines */}
-                <div className="grid sm:grid-cols-3 gap-4">
-                   <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-center">
-                     <div className="w-10 h-10 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">☀️</div>
-                     <h4 className="text-sm font-bold text-blue-900 mb-1">Good Lighting</h4>
-                     <p className="text-xs text-blue-700/80">Natural daylight is best</p>
-                   </div>
-                   <div className="bg-green-50 border border-green-100 rounded-xl p-4 text-center">
-                     <div className="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2">👤</div>
-                     <h4 className="text-sm font-bold text-green-900 mb-1">Face Forward</h4>
-                     <p className="text-xs text-green-700/80">Look directly at camera</p>
-                   </div>
-                   <div className="bg-purple-50 border border-purple-100 rounded-xl p-4 text-center">
-                     <div className="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">🖼️</div>
-                     <h4 className="text-sm font-bold text-purple-900 mb-1">Plain Bg</h4>
-                     <p className="text-xs text-purple-700/80">Avoid complex backgrounds</p>
-                   </div>
-                </div>
-
-                <div className="pt-4 border-t border-border">
+                <div className="pt-3 border-t border-border">
                   {isAnalyzing ? (
                     <div className="w-full bg-bg-tertiary rounded-xl p-6 text-center">
                        <div className="mb-4 flex justify-center">
@@ -195,8 +175,14 @@ const UploadPage = () => {
         </div>
       </div>
 
-      <Modal isOpen={isCameraOpen} onClose={() => setIsCameraOpen(false)} title="Take a Photo" maxWidth="max-w-lg">
-        <CameraCapture onCapture={handleCameraCapture} />
+      <Modal 
+        isOpen={isCameraOpen} 
+        onClose={() => setIsCameraOpen(false)} 
+        title="📸 Take a Photo" 
+        maxWidth="max-w-2xl"
+        fullScreen={true}
+      >
+        <CameraCapture onCapture={handleCameraCapture} onClose={() => setIsCameraOpen(false)} />
       </Modal>
     </div>
   );

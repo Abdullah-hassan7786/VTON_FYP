@@ -5,6 +5,8 @@ import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { Download, Share2, Save, ShoppingBag, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import AnalysisCard from '../components/analysis/AnalysisCard';
 import ColorPalette from '../components/analysis/ColorPalette';
@@ -17,6 +19,7 @@ const AnalysisPage = () => {
   
   const [isSaving, setIsSaving] = useState(false);
   const [hasSaved, setHasSaved] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const analysisData = location.state?.analysisData;
   const isNew = location.state?.isNew;
@@ -101,48 +104,76 @@ const AnalysisPage = () => {
     toast.success('Link copied to clipboard!');
   };
 
-  const handleDownloadPdf = () => {
-    toast('PDF Generation coming soon!', { icon: '📄' });
+  const handleDownloadPdf = async () => {
+    if (!analysisData) return;
+
+    const element = document.getElementById('analysis-pdf-content');
+    if (!element) {
+      toast.error('Unable to generate PDF.');
+      return;
+    }
+
+    setIsDownloadingPdf(true);
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('portrait', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`rizz-up-analysis-${analysisData.season || 'result'}-${Date.now()}.pdf`);
+      toast.success('Your PDF is downloading now!');
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast.error('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsDownloadingPdf(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-bg-secondary pt-24 pb-20">
+    <div className="bg-bg-secondary pt-4 pb-4 min-h-screen overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <button 
             onClick={() => navigate(isNew ? '/dashboard' : -1)}
-            className="flex items-center gap-2 text-text-secondary hover:text-primary transition-colors font-medium"
+            className="flex items-center gap-1 text-text-secondary hover:text-primary transition-colors font-medium text-sm"
           >
-            <ArrowLeft size={18} /> {isNew ? 'Back to Dashboard' : 'Back'}
+            <ArrowLeft size={16} /> {isNew ? 'Back' : 'Back'}
           </button>
           
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="ghost" size="sm" onClick={handleShare}>
               <Share2 size={16} className="mr-2" /> Share
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleDownloadPdf}>
+            <Button variant="ghost" size="sm" onClick={handleDownloadPdf} isLoading={isDownloadingPdf}>
               <Download size={16} className="mr-2" /> PDF
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div id="analysis-pdf-content" className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           
           {/* Left Column - User Stats */}
           <div className="lg:col-span-5">
-            <div className="sticky top-24">
+            <div className="sticky top-20">
               <AnalysisCard analysisData={analysisData} />
             </div>
           </div>
 
           {/* Right Column - Colors */}
-          <div className="lg:col-span-7 space-y-8">
-            <div className="bg-white rounded-2xl border border-border p-6 sm:p-8 shadow-sm">
+          <div className="lg:col-span-7 space-y-4">
+            <div className="bg-white rounded-2xl border border-border p-4 sm:p-5 shadow-sm">
               
-              <div className="mb-10 text-center sm:text-left">
-                <h2 className="text-3xl font-bold font-display text-secondary mb-2">Your Color Guide</h2>
-                <p className="text-text-secondary">Here are the exact shades that will make you look vibrant and healthy.</p>
+              <div className="mb-4 text-center sm:text-left">
+                <h2 className="text-2xl font-bold font-display text-secondary mb-1">Your Color Guide</h2>
+                <p className="text-sm text-text-secondary">Shades that make you look vibrant and healthy.</p>
               </div>
 
               <ColorPalette 
@@ -152,7 +183,7 @@ const AnalysisPage = () => {
                 type="suggest"
               />
 
-              <div className="h-px w-full bg-border my-10"></div>
+              <div className="h-px w-full bg-border my-4"></div>
 
               <ColorPalette 
                 title="Colors to Avoid" 
@@ -164,7 +195,7 @@ const AnalysisPage = () => {
             </div>
 
             {/* Bottom Action Bar */}
-            <div className="bg-white rounded-2xl border border-border p-6 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <div className="bg-white rounded-2xl border border-border p-4 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
               <div>
                 <h4 className="font-bold text-secondary mb-1">Build Your Wardrobe</h4>
                 <p className="text-sm text-text-secondary">Start finding pieces in your season.</p>

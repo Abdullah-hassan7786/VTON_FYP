@@ -9,10 +9,10 @@ const ImagePreview = ({ file, fileUrl, onRemove }) => {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row gap-6 items-start"
+      className="bg-white rounded-2xl border border-border p-5 shadow-sm flex flex-col md:flex-row gap-4 items-start"
     >
       <div className="relative shrink-0">
-        <div className="w-40 h-40 rounded-xl overflow-hidden bg-bg-tertiary border border-border shadow-sm">
+        <div className="w-32 h-32 rounded-xl overflow-hidden bg-bg-tertiary border border-border shadow-sm">
           {fileUrl && (
             <img 
               src={fileUrl} 
@@ -32,8 +32,8 @@ const ImagePreview = ({ file, fileUrl, onRemove }) => {
       
       <div className="flex-1 w-full">
         <div className="flex items-center gap-2 mb-2">
-          <CheckCircle size={20} className="text-success" />
-          <h4 className="font-bold text-secondary text-lg">Image Selected</h4>
+          <CheckCircle size={18} className="text-success" />
+          <h4 className="font-bold text-secondary text-base">Image Selected</h4>
         </div>
         
         {file && (

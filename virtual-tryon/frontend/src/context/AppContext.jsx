@@ -4,9 +4,18 @@ const AppContext = createContext();
 
 export const useAppContext = () => useContext(AppContext);
 
+const loadSavedLooks = () => {
+  try {
+    const raw = localStorage.getItem('savedLooks')
+    return raw ? JSON.parse(raw) : []
+  } catch (e) {
+    return []
+  }
+}
+
 const initialState = {
   currentAnalysis: null,
-  savedLooks: [],
+  savedLooks: loadSavedLooks(),
   tryOnImage: null
 };
 
@@ -18,6 +27,10 @@ const appReducer = (state, action) => {
       return { ...state, currentAnalysis: null };
     case 'SET_TRY_ON_IMAGE':
       return { ...state, tryOnImage: action.payload };
+    case 'ADD_SAVED_LOOK':
+      return { ...state, savedLooks: [action.payload, ...state.savedLooks] };
+    case 'REMOVE_SAVED_LOOK':
+      return { ...state, savedLooks: state.savedLooks.filter(s => s.id !== action.payload) };
     default:
       return state;
   }
@@ -38,11 +51,32 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: 'SET_TRY_ON_IMAGE', payload: imageSrc });
   };
 
+    const addSavedLook = (item) => {
+      dispatch({ type: 'ADD_SAVED_LOOK', payload: item });
+      try {
+        const next = [item, ...state.savedLooks];
+        localStorage.setItem('savedLooks', JSON.stringify(next));
+      } catch (e) {
+        // ignore
+      }
+    };
+
+    const removeSavedLook = (id) => {
+      dispatch({ type: 'REMOVE_SAVED_LOOK', payload: id });
+      try {
+        const next = state.savedLooks.filter(s => s.id !== id);
+        localStorage.setItem('savedLooks', JSON.stringify(next));
+      } catch (e) {
+        // ignore
+      }
+    };
+
   const value = {
     state,
     setCurrentAnalysis,
     clearAnalysis,
     setTryOnImage
+    , addSavedLook, removeSavedLook
   };
 
   return (

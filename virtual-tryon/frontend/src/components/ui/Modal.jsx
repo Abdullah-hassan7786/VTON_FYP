@@ -7,7 +7,8 @@ const Modal = ({
   onClose, 
   title, 
   children, 
-  maxWidth = 'max-w-md'
+  maxWidth = 'max-w-md',
+  fullScreen = false
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -19,6 +20,18 @@ const Modal = ({
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -37,18 +50,26 @@ const Modal = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className={`bg-white rounded-2xl shadow-xl w-full ${maxWidth} overflow-hidden pointer-events-auto border border-border`}
+              className={`bg-white rounded-2xl shadow-xl w-full overflow-hidden pointer-events-auto border border-border flex flex-col ${
+                fullScreen 
+                  ? 'h-screen sm:h-auto sm:max-h-[90vh]' 
+                  : `max-h-[90vh] ${maxWidth}`
+              }`}
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border flex-shrink-0 bg-bg-secondary">
                 {title && <h3 className="text-lg font-bold text-secondary font-display">{title}</h3>}
                 <button
                   onClick={onClose}
-                  className="p-1.5 rounded-full text-text-muted hover:bg-bg-tertiary hover:text-text-primary transition-colors ml-auto"
+                  className="p-1.5 rounded-full text-text-muted hover:bg-white hover:text-text-primary transition-colors ml-auto"
+                  aria-label="Close modal"
                 >
                   <X size={20} />
                 </button>
               </div>
-              <div className="p-6">
+
+              {/* Content */}
+              <div className="p-6 overflow-y-auto flex-1">
                 {children}
               </div>
             </motion.div>

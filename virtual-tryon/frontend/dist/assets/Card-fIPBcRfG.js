@@ -1,0 +1,1 @@
+import{m as a,j as n}from"./index-BKtMGj6E.js";const m=({children:r,className:s="",hover:o=!1,...d})=>{const e=o?a.div:"div",t=o?{whileHover:{y:-4,boxShadow:"var(--shadow-md)"},transition:{duration:.2}}:{};return n.jsx(e,{className:`bg-white rounded-2xl border border-border shadow-sm overflow-hidden ${s}`,...t,...d,children:r})};export{m as C};

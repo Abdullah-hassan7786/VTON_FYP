@@ -5,3 +5,9 @@ opencv-python
 Pillow
 scikit-learn
 numpy
+gradio-client
+python-dotenv
+requests
+openai
+google-genai
+tenacity

@@ -42,7 +42,7 @@ function App() {
       
       <Navbar />
       
-      <main className="min-h-screen">
+      <main className="min-h-screen pt-16">
         <Suspense fallback={
           <div className="min-h-screen flex items-center justify-center bg-bg-secondary">
             <div className="flex flex-col items-center gap-4">

@@ -4,12 +4,26 @@ import { Heart, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
+import { useAppContext } from '../../context/AppContext';
 
 const ClothingCard = ({ item }) => {
   const navigate = useNavigate();
 
   const handleTryOn = () => {
     navigate('/try-on', { state: { selectedItem: item } });
+  };
+
+  const { state: appState, addSavedLook, removeSavedLook } = useAppContext();
+  const isSaved = appState.savedLooks.some(s => s.id === item.id);
+
+  const toggleSave = (e) => {
+    e.stopPropagation();
+    if (isSaved) {
+      removeSavedLook(item.id);
+    } else {
+      // store a lightweight item object
+      addSavedLook({ id: item.id, clothingName: item.name, clothingImage: item.image, price: item.price, brand: item.brand });
+    }
   };
 
   return (
@@ -35,7 +49,12 @@ const ClothingCard = ({ item }) => {
             <Button className="flex-1 rounded-xl bg-white text-secondary hover:bg-bg-tertiary shadow-lg" onClick={handleTryOn}>
               Try On
             </Button>
-            <button className="w-11 h-11 bg-white rounded-xl shadow-lg flex items-center justify-center text-secondary hover:text-error hover:bg-red-50 transition-colors">
+            <button
+              onClick={toggleSave}
+              aria-pressed={isSaved}
+              className={`w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-colors ${isSaved ? 'bg-pink-100 text-pink-600' : 'bg-white text-secondary hover:text-error hover:bg-red-50'}`}
+              title={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
               <Heart size={20} />
             </button>
           </motion.div>

@@ -1,0 +1,1036 @@
+{
+    "named_endpoints": {
+        "/generate": {
+            "parameters": [
+                {
+                    "label": "Base Image",
+                    "parameter_name": "base_img",
+                    "parameter_has_default": false,
+                    "parameter_default": null,
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "component": "Image",
+                    "example_input": {
+                        "path": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png",
+                        "meta": {
+                            "_type": "gradio.FileData"
+                        },
+                        "orig_name": "bus.png",
+                        "url": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png"
+                    }
+                },
+                {
+                    "label": "Product Image",
+                    "parameter_name": "garment_img",
+                    "parameter_has_default": false,
+                    "parameter_default": null,
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "component": "Image",
+                    "example_input": {
+                        "path": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png",
+                        "meta": {
+                            "_type": "gradio.FileData"
+                        },
+                        "orig_name": "bus.png",
+                        "url": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png"
+                    }
+                },
+                {
+                    "label": "Model",
+                    "parameter_name": "workflow_choice",
+                    "parameter_has_default": true,
+                    "parameter_default": "eyewear",
+                    "type": {
+                        "enum": [
+                            "eyewear",
+                            "footwear",
+                            "dress",
+                            "top"
+                        ],
+                        "title": "Radio",
+                        "type": "string"
+                    },
+                    "python_type": {
+                        "type": "Literal['eyewear', 'footwear', 'dress', 'top']",
+                        "description": ""
+                    },
+                    "component": "Radio",
+                    "example_input": "eyewear"
+                },
+                {
+                    "label": "Mask Image (Optional)",
+                    "parameter_name": "mask_img",
+                    "parameter_has_default": false,
+                    "parameter_default": null,
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "component": "Image",
+                    "example_input": {
+                        "path": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png",
+                        "meta": {
+                            "_type": "gradio.FileData"
+                        },
+                        "orig_name": "bus.png",
+                        "url": "https://raw.githubusercontent.com/gradio-app/gradio/main/test/test_files/bus.png"
+                    }
+                }
+            ],
+            "returns": [
+                {
+                    "label": "Result",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Base Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda_1": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Base Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda_2": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Base Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda_3": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Product Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda_4": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Product Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        },
+        "/lambda_5": {
+            "parameters": [],
+            "returns": [
+                {
+                    "label": "Product Image",
+                    "type": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Path to a local file",
+                                "title": "Path"
+                            },
+                            "url": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Publicly available url or base64 encoded image",
+                                "title": "Url"
+                            },
+                            "size": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Size of image in bytes",
+                                "title": "Size"
+                            },
+                            "orig_name": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "Original filename",
+                                "title": "Orig Name"
+                            },
+                            "mime_type": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "description": "mime type of image",
+                                "title": "Mime Type"
+                            },
+                            "is_stream": {
+                                "default": false,
+                                "description": "Can always be set to False",
+                                "title": "Is Stream",
+                                "type": "boolean"
+                            },
+                            "meta": {
+                                "additionalProperties": true,
+                                "default": {
+                                    "_type": "gradio.FileData"
+                                },
+                                "title": "Meta",
+                                "type": "object"
+                            }
+                        },
+                        "title": "ImageData",
+                        "type": "object",
+                        "additional_description": "For input, either path or url must be provided. For output, path is always provided."
+                    },
+                    "python_type": {
+                        "type": "dict(path: str | None (Path to a local file), url: str | None (Publicly available url or base64 encoded image), size: int | None (Size of image in bytes), orig_name: str | None (Original filename), mime_type: str | None (mime type of image), is_stream: bool (Can always be set to False), meta: dict(str, Any))",
+                        "description": ""
+                    },
+                    "component": "Image"
+                }
+            ]
+        }
+    },
+    "unnamed_endpoints": {}
+}

@@ -401,3 +401,57 @@ Photo uploaded!
 
 **Status**: ✅ All major issues resolved and tested
 **Last Updated**: April 23, 2026
+
+---
+
+## 🛠️ Backend Startup Automation ✓
+
+**Problem**: Starting the backend required multiple manual steps (activating venv, navigating to folder, running python).
+
+**Solution**:
+- Created **`start_backend.bat`** (for Windows) and **`start_backend.sh`** (for Bash/Mac/Linux) in the root directory.
+- These scripts automatically:
+  1. Activate the virtual environment (`.venv`).
+  2. Navigate to the `virtual-tryon/backend` directory.
+  3. Start the FastAPI server on port 8000.
+- Updated `requirements.txt` with missing dependencies (`requests`, `openai`, `google-generativeai`).
+
+**How to use**:
+1. Go to the project root: `c:\Users\muham\OneDrive\Desktop\VTON_FYP`
+2. **Double-click `start_backend.bat`** to start the backend immediately.
+3. The server will be available at `http://localhost:8000`.
+
+**Key Scripts Added**:
+- `start_backend.bat`: One-click startup for Windows users.
+- `start_backend.sh`: One-click startup for Bash users.
+
+---
+
+## ⚙️ Backend Technical Working Summary
+
+The backend is built with **FastAPI** and handles two primary workflows:
+
+### 1. **Image Analysis Pipeline** (`main.py`)
+- **Face Detection**: Uses OpenCV's Haar Cascades to detect faces. It strictly enforces **one face per image** to ensure analysis accuracy.
+- **Auto-Cropping**: Automatically crops and pads the detected face region for processing.
+- **Skin Tone Analysis**: 
+  - Extracts average color from the face.
+  - Classifies skin into one of **12 seasonal color palettes** (e.g., Cool Winter, Warm Spring).
+  - Returns detailed characteristics, suggested colors, and colors to avoid.
+
+### 2. **AI Virtual Try-On Pipeline** (`services/tryon.py`)
+- **Dual-Model Strategy**:
+  - **Primary (Grok)**: Uses xAI's Grok-4 for vision analysis and Grok-2 for photorealistic image generation.
+  - **Fallback (Gemini + Pollinations)**: If Grok credits are exhausted, it automatically switches to Google's Gemini 1.5 Flash to generate a detailed prompt, which is then rendered by Pollinations.ai.
+- **Prompt Engineering**: Dynamically generates high-fidelity prompts that describe the user's features and the clothing's texture to ensure a realistic "wear" effect.
+
+### 3. **High-Quality VTON via Hugging Face** (`services/tryon.py`)
+- **sm4ll-VTON Integration**: Integrated a dedicated Virtual Try-On Space (`sm4ll-VTON/sm4ll-VTON-Demo`) using `gradio-client`.
+- **Identity Preservation**: Unlike general image generators, this specialized model preserves the user's original face and features with high fidelity.
+- **Auto-Mapping**: Automatically detects the type of clothing (top, dress, footwear, eyewear) from the description to select the correct processing workflow.
+- **Authentication**: Uses the `HF_TOKEN` from `.env.local` to access the Space and handle higher rate limits.
+
+---
+
+
+

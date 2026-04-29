@@ -9,6 +9,7 @@ import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import SeasonBadge from '../components/analysis/SeasonBadge';
 import SkeletonLoader from '../components/ui/SkeletonLoader';
+import { useAppContext } from '../context/AppContext';
 
 const HistoryPage = () => {
   const { user } = useAuth();
@@ -18,11 +19,25 @@ const HistoryPage = () => {
   const [analyses, setAnalyses] = useState([]);
   const [looks, setLooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { state: appState, removeSavedLook } = useAppContext();
 
   useEffect(() => {
     const fetchHistory = async () => {
       if (!user) return;
       setIsLoading(true);
+      // Avoid calling Supabase with a non-UUID user id (e.g. dev/mock id like "mock_ali_123")
+      const isUuid = (id) => {
+        if (!id || typeof id !== 'string') return false;
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+      };
+
+      if (!isUuid(user.id)) {
+        console.warn('Skipping history fetch: user.id is not a UUID:', user.id);
+        setAnalyses([]);
+        setLooks([]);
+        setIsLoading(false);
+        return;
+      }
       
       try {
         // Fetch Analyses from Supabase
@@ -56,21 +71,50 @@ const HistoryPage = () => {
           .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
+        let mappedLooks = [];
         if (looksError) {
           // Table might not exist yet, that's okay
           console.warn("Could not fetch saved looks:", looksError.message);
-          setLooks([]);
+          mappedLooks = [];
         } else {
-          const mappedLooks = (looksData || []).map(row => ({
+          mappedLooks = (looksData || []).map(row => ({
             id: row.id,
             clothingName: row.clothing_name,
             clothingImage: row.clothing_image,
             userImageUrl: row.user_image_url,
+            generatedTryonUrl: row.generated_tryon_url,
             scale: row.scale,
             createdAt: row.created_at,
+            source: 'saved_look',
           }));
-          setLooks(mappedLooks);
         }
+
+        // Fetch Try-On history (from your provided `tryon_history` table)
+        const { data: tryonData, error: tryonError } = await supabase
+          .from('tryon_history')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (tryonError) {
+          console.warn('Could not fetch tryon history:', tryonError.message);
+        } else {
+          const mappedTryon = (tryonData || []).map(row => ({
+            id: row.id,
+            clothingId: row.clothing_id,
+            clothingName: row.clothing_id || 'Try-on',
+            clothingImage: null,
+            userImageUrl: row.user_image_url,
+            generatedTryonUrl: row.result_image_url,
+            createdAt: row.created_at,
+            source: 'tryon_history',
+          }));
+
+          // Merge saved looks with tryon history (tryon items first)
+          mappedLooks = [...mappedTryon, ...mappedLooks];
+        }
+
+        setLooks(mappedLooks);
 
       } catch (error) {
         console.error("Error fetching history:", error);
@@ -102,20 +146,33 @@ const HistoryPage = () => {
   };
 
   const handleDeleteLook = async (id) => {
-    if (window.confirm("Are you sure you want to delete this look?")) {
-      try {
+    if (!window.confirm("Are you sure you want to delete this look?")) return;
+
+    const item = looks.find(l => l.id === id);
+    if (!item) return;
+
+    try {
+      if (item.source === 'tryon_history') {
+        const { error } = await supabase
+          .from('tryon_history')
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+      } else {
         const { error } = await supabase
           .from('saved_looks')
           .delete()
           .eq('id', id);
 
         if (error) throw error;
-        setLooks(looks.filter(l => l.id !== id));
-        toast.success("Look deleted.");
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to delete look.");
       }
+
+      setLooks(looks.filter(l => l.id !== id));
+      toast.success("Look deleted.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete look.");
     }
   };
 
@@ -251,15 +308,11 @@ const HistoryPage = () => {
                     {looks.map((look) => (
                       <Card key={look.id} hover className="flex flex-col">
                         <div className="relative aspect-[3/4] bg-bg-tertiary">
-                          <img src={look.userImageUrl} alt="You" className="absolute inset-0 w-full h-full object-cover" />
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <img 
-                              src={look.clothingImage} 
-                              alt={look.clothingName} 
-                              className="object-contain mix-blend-multiply opacity-90 drop-shadow-lg"
-                              style={{ transform: `scale(${look.scale || 1}) translateY(10%)`, maxHeight: '80%' }}
-                            />
-                          </div>
+                          <img 
+                            src={look.generatedTryonUrl || look.userImageUrl} 
+                            alt={look.clothingName} 
+                            className="absolute inset-0 w-full h-full object-cover" 
+                          />
                           <button 
                             onClick={() => handleDeleteLook(look.id)}
                             className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-error hover:bg-white transition-colors shadow-sm"
@@ -289,14 +342,40 @@ const HistoryPage = () => {
               )}
 
               {activeTab === 'wishlist' && (
-                <div className="text-center py-16 px-4 bg-white rounded-2xl border border-border shadow-sm">
-                  <div className="w-20 h-20 bg-bg-tertiary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <ShoppingBag size={32} className="text-text-muted" />
+                appState.savedLooks && appState.savedLooks.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                    {appState.savedLooks.map((item) => (
+                      <Card key={item.id} hover className="flex flex-col">
+                        <div className="relative aspect-[3/4] bg-bg-tertiary">
+                          <img
+                            src={item.clothingImage}
+                            alt={item.clothingName}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                          <button
+                            onClick={() => removeSavedLook(item.id)}
+                            className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-text-secondary hover:text-error hover:bg-white transition-colors shadow-sm"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                        <div className="p-3 sm:p-4 flex-1 flex flex-col">
+                          <h4 className="font-bold text-secondary text-sm line-clamp-2">{item.clothingName}</h4>
+                          <p className="text-xs text-text-muted mt-2">{item.brand} • ${item.price?.toFixed?.(2)}</p>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
-                  <h3 className="text-xl font-bold text-secondary mb-2">Wishlist is empty</h3>
-                  <p className="text-text-secondary mb-6">Heart items in the catalog to save them for later.</p>
-                  <Button onClick={() => navigate('/catalog')}>Go Shopping</Button>
-                </div>
+                ) : (
+                  <div className="text-center py-16 px-4 bg-white rounded-2xl border border-border shadow-sm">
+                    <div className="w-20 h-20 bg-bg-tertiary rounded-full flex items-center justify-center mx-auto mb-4">
+                      <ShoppingBag size={32} className="text-text-muted" />
+                    </div>
+                    <h3 className="text-xl font-bold text-secondary mb-2">Wishlist is empty</h3>
+                    <p className="text-text-secondary mb-6">Heart items in the catalog to save them for later.</p>
+                    <Button onClick={() => navigate('/catalog')}>Go Shopping</Button>
+                  </div>
+                )
               )}
             </>
           )}
